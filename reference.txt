@@ -1,0 +1,27 @@
+npm install react-navigation-stack @react-native-community/masked-view react-native-safe-area-context
+Installation above allows to use navigation like in Udemy course.
+Note: Some code may break, make sure it has the right installation package
+because "createStackNavigator" was able to be installed from 
+'react-navigation-stack' and also '@react-navigation/stack'
+but the one that worked was 'react-navigation-stack' . . .
+
+/*
+    Note:
+    React Native Navigation API got upgraded to version 5 (as of Feb 24 2020) and is why
+    you may find that some functions such as createBottomTabNavigator
+    may not work with certain dependencies because we are working with
+    navigation that's not up to date. 
+*/
+
+/*
+    Note: 
+    There may be an easier way of passing down data to screens such
+    as destructuring the props and passing down the item as a param
+    or a prop to another screen rather than passing the id (which
+    is part of the item). For when we redo this we can try it out 
+    or at least understand why that may be a bad practice.
+
+    Note:
+    Currently implementing passing down data via params rather than
+    query through id.
+*/
