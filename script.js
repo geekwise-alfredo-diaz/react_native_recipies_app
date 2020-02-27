@@ -1,23 +1,24 @@
 const axios = require('axios');
 
 // Api Key
-const key = '87b2e5b0df0840228f56ee087474c79c'
+const key = 'fcf71feb447b440790ebfee427cf24b2'
 
 // Base Url
 const burl = 'https://api.spoonacular.com'
 
 // Select Category and Number of Recepies From That Category
-const category = 'italian'
-const numOfCatItems = 10
+const category = 'mexican'
+const numOfCatItems = 1
 
 // Meals That Will Display
-let generalItems;
+let generalMeals;
 
-// 3 Sent in order 0 - arr length
-const outPutSteps = generalItems => {
+// Step [3]
+// For Each Meal GET Corresponding Steps
+const outPutSteps = generalMeals => {
     let index = 0;
-    for(let i = 0; i < generalItems.length; i++){
-        let id = generalItems[i].id
+    for(let i = 0; i < generalMeals.length; i++){
+        let id = generalMeals[i].id
         // console.log(id, 'init')
         axios.get(`${burl}/recipes/${id}/information?apiKey=${key}&includeNutrition=false`)
         .then(res => {
@@ -28,51 +29,56 @@ const outPutSteps = generalItems => {
     }
 }
 
-// 4 extendedIngredients of one
+// Step [4]
+// For Each Meal ADD Corresponding Steps
 const updateSteps = (extendedIngredients, asyncInd, index) => {
     let filteredSteps = [];
     for(let i = 0; i < extendedIngredients.length; i++) {
         filteredSteps.push(extendedIngredients[i].original)
     }
-    generalItems[asyncInd]['steps'] = filteredSteps;
-    if(index === generalItems.length - 1) {
-        outPutIngredients(generalItems);
+    generalMeals[asyncInd]['steps'] = filteredSteps;
+    if(index === generalMeals.length - 1) {
+        outPutIngredients(generalMeals);
     }
 }
 
-// 2
-const updateGeneralItems = data => {
-    generalItems = data;
+// Step [2]
+// Returns GeneralMeals and Adds the Corresponding Category as Key
+const updategeneralMeals = data => {
+    generalMeals = data;
     // Adds category
-    for(let i = 0; i < generalItems.length; i++) {
-        generalItems[i].category = category;
+    for(let i = 0; i < generalMeals.length; i++) {
+        generalMeals[i].category = category;
     }
-    outPutSteps(generalItems);
+    outPutSteps(generalMeals);
 }
 
-// 1
+// Step [1]
+// Gets a Certain Amount of Meals of a Category
 axios.get(`${burl}/recipes/search?query=${category}&number=${numOfCatItems}&apiKey=${key}`)
-    .then(res => updateGeneralItems(res.data.results))
+    .then(res => updategeneralMeals(res.data.results))
     .catch(err => console.log(err));
 
-// 6
+// Step [6]
+// For Each Meal GET Corresponding Ingredients
 const updateIngredients = (ingredients, asyncInd, index) => {
     let filteredIngredients = [];
 
     for(let i = 0; i < ingredients.length; i++) {
         filteredIngredients.push(ingredients[i].name)
     }
-    generalItems[asyncInd]['ingredients'] = filteredIngredients;
+    generalMeals[asyncInd]['ingredients'] = filteredIngredients;
 
-    if(index === generalItems.length - 1) {
-        showGeneralItems();
+    if(index === generalMeals.length - 1) {
+        showgeneralMeals();
     }
 }
 
-// 5
-const outPutIngredients = generalItems => {
+// Step [5]
+// For Each Meal ADD Corresponding Ingredients
+const outPutIngredients = generalMeals => {
     let index = 0;
-    generalItems.forEach((item, ind) => {
+    generalMeals.forEach((item, ind) => {
         axios.get(`${burl}/recipes/${item.id}/ingredientWidget.json?apiKey=${key}`)
         .then(res => {
             updateIngredients(res.data.ingredients, ind, index);
@@ -81,7 +87,7 @@ const outPutIngredients = generalItems => {
     });
 }
 
-
-const showGeneralItems = () => {
-    console.log(generalItems);
+// Display Meals
+const showgeneralMeals = () => {
+    console.log(JSON.stringify(generalMeals));
 }
