@@ -4,21 +4,23 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react
 
 // Returns an Image of a Meal with Little Detail
 const MealItem = ({item, onSelect}) => {
+    const uri = `https://spoonacular.com/recipeImages/${item.image}`
+
     return (
         <View style={styles.mealItem}>
             <TouchableOpacity onPress={onSelect}>
                 <View>
                     <View style={{...styles.mealRow, ...styles.mealHeader}}>
-                        <ImageBackground style={styles.bgImage} source={{uri: item.imageUrl}}>
+                        <ImageBackground style={styles.bgImage} source={{uri}}>
                             <View style={styles.titleContainer}>
                                 <Text numberOfLines={1} style={styles.title}>{item.title}</Text>
                             </View>
                         </ImageBackground>
                     </View>
                     <View style={{...styles.mealRow, ...styles.mealDetail}}>
-                        <Text>{item.duration}m</Text>
-                        <Text>{item.complexity.toUpperCase()}</Text>
-                        <Text>{item.affordability.toUpperCase()}</Text>
+                        <Text>{item.readyInMinutes}m</Text>
+                        {/* <Text>{item.complexity.toUpperCase()}</Text>
+                        <Text>{item.affordability.toUpperCase()}</Text> */}
                     </View>
                 </View>
             </TouchableOpacity>

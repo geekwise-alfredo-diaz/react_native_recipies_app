@@ -18,13 +18,13 @@ const CategoriesScreen = ({navigation}) => {
         return (
             <CategoryGridTile item={itemData} 
                 onSelect={() => navigation.navigate({routeName: 'CategoryMeals', params: {
-                categoryId: itemData.item.id, categoryTitle: itemData.item.title}})}
+                categoryId: itemData.item.id, categoryTitle: itemData.item.title, queryTitle: itemData.item.queryTitle}})}
             />
         )
     }
 
     return (
-        <FlatList numColumns={2} keyExtractor={item => item.id.toString()} data={CATEGORIES} renderItem={renderItems}/>
+        <FlatList numColumns={2} keyExtractor={item => item.id} data={CATEGORIES} renderItem={renderItems}/>
     )
 }
 
@@ -36,6 +36,5 @@ CategoriesScreen.navigationOptions = navData => {
             </HeaderButtons>
     }
 }
-
 
 export default CategoriesScreen;

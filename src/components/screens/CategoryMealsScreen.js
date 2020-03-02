@@ -1,21 +1,36 @@
 // Native Imports
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+// axios
+import axios from 'axios'
 
 // Components
 import MealList from '../MealList'
-
-// Dummy Data
-import { MEALS } from '../../data/dummyData'
+import Loading from '../Loading'
 
 // Returns Meals Based of Category
 const CategoryMeals = ({navigation}) => {
     // Grabs All Items Belonging to a Category
-    const catId = navigation.getParam('categoryId');
-    const displayedMeals = MEALS.filter(
-        meal => meal.categoryIds.indexOf(catId) >= 0
-    );
+    const [ meals, updateMeals ] = useState([]);
+    const queryTitle = navigation.getParam('queryTitle');
 
-    return <MealList data={displayedMeals} navigation={navigation}/>
+    const getMeals = () => {
+        axios.get(`https://g-f-meals-express-db.herokuapp.com/api/meals?cat=${queryTitle}`)
+        .then(res => {updateMeals(res.data.data)})
+        .catch(err => console.log(err));
+    }
+
+    useEffect(() => {
+        getMeals();
+    }, [])
+
+    const renderItems = () => {
+        if (meals.length > 1) {
+            return <MealList data={meals} navigation={navigation}/>
+        }
+        return <Loading />
+    }
+    return renderItems();
 }
 
 // Changes Title of Screen to Corresponding Category

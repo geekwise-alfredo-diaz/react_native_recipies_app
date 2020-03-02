@@ -17,7 +17,7 @@ const MealList = ({data, navigation}) => {
 
     return (
         <View style={styles.screen}>
-            <FlatList style={{width: '100%'}} data={data} keyExtractor={item => item.id} renderItem={renderMealItems}/>
+            <FlatList style={{width: '100%'}} data={data} keyExtractor={item => item.id.toString()} renderItem={renderMealItems}/>
         </View>
     )
 }

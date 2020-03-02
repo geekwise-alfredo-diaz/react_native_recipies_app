@@ -25,10 +25,10 @@ const FiltersScreen = ({navigation}) => {
     //     }
     // }
 
-    useEffect(() => {
-        // navigation.setParams({save: 'test'});
-        console.log('test');
-    })
+    // useEffect(() => {
+    //     // navigation.setParams({save: 'test'});
+    //     console.log('test');
+    // })
 
     const renderSwitch = (func, val) => {
         return (
